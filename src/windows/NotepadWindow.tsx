@@ -4,11 +4,10 @@ import { useTheme } from '../hooks/useTheme';
 const DEFAULT_TEXT = `Notes
 =======
 TODO:
-- [ ] finish the personal website
+- [x] finish the personal website
 - [ ] deploy to chewyapp1e.me
-- [ ] figure out why everything is broken
 - [ ] order reps
-- [ ] go to gym
+- [x] go to gym
 - [ ] book basketball session
 - [ ] call mum 
 `;
