@@ -42,7 +42,6 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
 
   const containerRef = useRef<HTMLDivElement>(null);
   const isDraggingIcon = useRef(false);
-  const lastClickTime = useRef<Partial<Record<WindowId, number>>>({});
   const draggedId = useRef<WindowId | null>(null);
 
 
@@ -132,32 +131,24 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
     (id: WindowId, e: React.MouseEvent) => {
       if (isDraggingIcon.current) return;
       e.stopPropagation();
-      const now = Date.now();
-      const last = lastClickTime.current[id] ?? 0;
-      if (now - last < 400) {
-        lastClickTime.current[id] = 0;
-        const ic = icons.find(i => i.id === id);
-        if (ic?.downloadUrl) {
-          const a = document.createElement('a');
-          a.href = ic.downloadUrl;
-          a.download = ic.downloadUrl.split('/').pop() ?? ic.label;
-          a.click();
-        } else if (ic?.externalUrl) {
-          window.open(ic.externalUrl, '_blank');
-        } else {
-          onOpen(id);
-        }
-        return;
-      }
-      lastClickTime.current[id] = now;
       if (e.ctrlKey || e.metaKey) {
         setSelected(prev => {
           const next = new Set(prev);
           if (next.has(id)) { next.delete(id); } else { next.add(id); }
           return next;
         });
+        return;
+      }
+      const ic = icons.find(i => i.id === id);
+      if (ic?.downloadUrl) {
+        const a = document.createElement('a');
+        a.href = ic.downloadUrl;
+        a.download = ic.downloadUrl.split('/').pop() ?? ic.label;
+        a.click();
+      } else if (ic?.externalUrl) {
+        window.open(ic.externalUrl, '_blank');
       } else {
-        setSelected(new Set([id]));
+        onOpen(id);
       }
     },
     [onOpen, icons]
