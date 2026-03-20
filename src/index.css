@@ -1,0 +1,460 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import "tailwindcss";
+
+:root {
+  --win-bg: #c0c0c0;
+  --win-border-light: #ffffff;
+  --win-border-dark: #808080;
+  --win-border-darker: #404040;
+  --win-title-active: linear-gradient(to right, #000080, #1084d0);
+  --win-title-inactive: linear-gradient(to right, #808080, #b0b0b0);
+  --taskbar-bg: #c0c0c0;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='20'%3E%3Cpath d='M0 0 L0 16 L4 12 L7 19 L9 18 L6 11 L11 11 Z' fill='white' stroke='black' stroke-width='1'/%3E%3C/svg%3E") 0 0, default;
+}
+
+/* CRT scanlines overlay */
+#crt-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 0, 0, 0.07) 3px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  50% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+/* Win98 button */
+.btn-98 {
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #404040;
+  border-right: 2px solid #404040;
+  padding: 3px 8px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  cursor: pointer;
+  color: #000;
+  user-select: none;
+}
+
+.btn-98:active {
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+}
+
+/* Win98 inset */
+.inset-98 {
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+  background: #fff;
+}
+
+/* Win98 window chrome */
+.window-98 {
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #404040;
+  border-right: 2px solid #404040;
+  position: absolute;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.window-98 .title-bar {
+  background: var(--win-title-active);
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: grab;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.window-98 .title-bar.inactive {
+  background: var(--win-title-inactive);
+}
+
+.window-98 .title-bar:active {
+  cursor: grabbing;
+}
+
+.window-98 .title-bar-title {
+  color: #fff;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.window-98 .title-bar-controls {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.title-btn {
+  width: 16px;
+  height: 14px;
+  background: #c0c0c0;
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-bottom: 1px solid #404040;
+  border-right: 1px solid #404040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 7px;
+  font-weight: bold;
+  color: #000;
+  font-family: Arial, sans-serif;
+  user-select: none;
+  line-height: 1;
+}
+
+.title-btn:active {
+  border-top: 1px solid #404040;
+  border-left: 1px solid #404040;
+  border-bottom: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+}
+
+.window-98 .window-body {
+  flex: 1;
+  overflow: auto;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+}
+
+/* Taskbar */
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  gap: 4px;
+  z-index: 10000;
+}
+
+.start-btn {
+  height: 24px;
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #404040;
+  border-right: 2px solid #404040;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 0 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.taskbar-divider {
+  width: 2px;
+  height: 22px;
+  border-left: 1px solid #808080;
+  border-right: 1px solid #ffffff;
+  flex-shrink: 0;
+}
+
+.taskbar-btn {
+  height: 24px;
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #404040;
+  border-right: 2px solid #404040;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  padding: 0 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 140px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.taskbar-btn.active {
+  border-top: 2px solid #404040;
+  border-left: 2px solid #404040;
+  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid #ffffff;
+}
+
+.taskbar-clock {
+  margin-left: auto;
+  height: 24px;
+  background: #c0c0c0;
+  border-top: 1px solid #808080;
+  border-left: 1px solid #808080;
+  border-bottom: 1px solid #ffffff;
+  border-right: 1px solid #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+  font-size: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Desktop icon */
+.desktop-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  touch-action: none;
+  gap: 4px;
+  padding: 6px;
+  cursor: pointer;
+  user-select: none;
+  width: 72px;
+  text-align: center;
+}
+
+.desktop-icon:hover .icon-label,
+.desktop-icon.selected .icon-label {
+  background: #000080;
+  color: #fff;
+  outline: 1px dotted #fff;
+}
+
+.desktop-icon .icon-img {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.desktop-icon .icon-label {
+  color: #fff;
+  font-size: 7px;
+  line-height: 1.4;
+  word-break: break-word;
+  padding: 1px 2px;
+  text-shadow: 1px 1px 1px #000;
+}
+
+/* Boot screen */
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  font-family: 'Press Start 2P', monospace;
+  color: #00ff00;
+}
+
+.boot-text {
+  font-size: 10px;
+  line-height: 2;
+  text-align: left;
+  max-width: 600px;
+  width: 90%;
+}
+
+.boot-bar-container {
+  width: 320px;
+  height: 20px;
+  border: 2px solid #00ff00;
+  margin-top: 20px;
+  padding: 2px;
+}
+
+.boot-bar-fill {
+  height: 100%;
+  background: #00ff00;
+  transition: width 0.1s linear;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: #c0c0c0; }
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #404040;
+  border-right: 2px solid #404040;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .window-98 {
+    position: fixed !important;
+    inset: 0 0 32px 0 !important;
+    transform: none !important;
+    width: 100% !important;
+    height: calc(100vh - 32px) !important;
+  }
+
+  .desktop-icon {
+    width: 60px;
+  }
+
+  .desktop-icon .icon-img {
+    font-size: 22px;
+  }
+
+  .desktop-icon .icon-label {
+    font-size: 6px;
+  }
+}
+
+/* MSN notification */
+.msn-toast {
+  position: fixed;
+  bottom: 40px;
+  right: 8px;
+  background: #ffffcc;
+  border-top: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  border-bottom: 2px solid #404040;
+  border-right: 2px solid #404040;
+  padding: 8px;
+  z-index: 20000;
+  max-width: 220px;
+  font-size: 8px;
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ── Desktop wallpaper ─────────────────────────────────────────────────────── */
+.desktop-wallpaper { background: #008080; }
+body.dark .desktop-wallpaper { background: #002a2a; }
+
+/* ── Dark mode overrides ───────────────────────────────────────────────────── */
+body.dark .btn-98 {
+  background: #2a2a2a;
+  border-top-color: #4a4a4a;
+  border-left-color: #4a4a4a;
+  border-bottom-color: #0a0a0a;
+  border-right-color: #0a0a0a;
+  color: #d0d0d0;
+}
+body.dark .btn-98:active {
+  border-top-color: #0a0a0a;
+  border-left-color: #0a0a0a;
+  border-bottom-color: #4a4a4a;
+  border-right-color: #4a4a4a;
+}
+body.dark .inset-98 {
+  border-top-color: #0a0a0a;
+  border-left-color: #0a0a0a;
+  border-bottom-color: #4a4a4a;
+  border-right-color: #4a4a4a;
+  background: #1a1a1a;
+  color: #d0d0d0;
+}
+body.dark .window-98 {
+  background: #2a2a2a;
+  border-top-color: #4a4a4a;
+  border-left-color: #4a4a4a;
+  border-bottom-color: #0a0a0a;
+  border-right-color: #0a0a0a;
+  color: #d0d0d0;
+}
+body.dark .window-98 .title-bar-controls button {
+  background: #2a2a2a;
+  border-top-color: #4a4a4a;
+  border-left-color: #4a4a4a;
+  border-bottom-color: #0a0a0a;
+  border-right-color: #0a0a0a;
+  color: #d0d0d0;
+}
+body.dark .taskbar {
+  background: #1a1a1a;
+  border-top-color: #3a3a3a;
+}
+body.dark .start-btn {
+  background: #2a2a2a;
+  border-top-color: #4a4a4a;
+  border-left-color: #4a4a4a;
+  border-bottom-color: #0a0a0a;
+  border-right-color: #0a0a0a;
+  color: #d0d0d0;
+}
+body.dark .taskbar-btn {
+  background: #2a2a2a;
+  border-top-color: #4a4a4a;
+  border-left-color: #4a4a4a;
+  border-bottom-color: #0a0a0a;
+  border-right-color: #0a0a0a;
+  color: #d0d0d0;
+}
+body.dark .taskbar-btn.active {
+  background: #1a1a1a;
+  border-top-color: #0a0a0a;
+  border-left-color: #0a0a0a;
+}
+body.dark .taskbar-clock {
+  background: #1a1a1a;
+  border-top-color: #0a0a0a;
+  border-left-color: #0a0a0a;
+  color: #d0d0d0;
+}
+body.dark ::-webkit-scrollbar-track { background: #2a2a2a; }
+body.dark ::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-top-color: #4a4a4a;
+  border-left-color: #4a4a4a;
+  border-bottom-color: #0a0a0a;
+  border-right-color: #0a0a0a;
+}
