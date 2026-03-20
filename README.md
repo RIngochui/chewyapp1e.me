@@ -1,4 +1,4 @@
-# ChewyOS
+# Personal Website: ChewyOS
 
 A fake retro Windows 98-style OS portfolio site built with React, Vite, and TypeScript.
 

@@ -1,4 +1,5 @@
 import type { WindowId } from '../types';
+import { useTheme } from '../hooks/useTheme';
 
 const FILE_CONTENT: Partial<Record<WindowId, string>> = {
   file1: `three_js_portfolio_v1.html
@@ -59,11 +60,12 @@ Please see LinkedIn for current version.`,
 };
 
 export default function FileViewerWindow({ id }: { id: WindowId }) {
+  const { bg, text } = useTheme();
   const content = FILE_CONTENT[id] ?? '(file contents missing)';
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ padding: '2px 4px', borderBottom: '1px solid #808080', fontSize: 7, display: 'flex', gap: 8, flexShrink: 0 }}>
+      <div className="menubar-98">
         <span>File</span>
         <span>Edit</span>
         <span>Help</span>
@@ -71,17 +73,7 @@ export default function FileViewerWindow({ id }: { id: WindowId }) {
       <textarea
         className="inset-98"
         readOnly
-        style={{
-          flex: 1,
-          resize: 'none',
-          fontFamily: "'Press Start 2P', monospace",
-          fontSize: 8,
-          lineHeight: 2,
-          padding: 6,
-          border: 'none',
-          outline: 'none',
-          background: '#fff',
-        }}
+        style={{ flex: 1, resize: 'none', fontSize: 8, lineHeight: 2, padding: 6, border: 'none', outline: 'none', background: bg, color: text }}
         value={content}
         spellCheck={false}
       />

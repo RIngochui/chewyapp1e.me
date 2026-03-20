@@ -1,4 +1,4 @@
-import { useDarkMode } from '../hooks/useDarkMode';
+import { useTheme } from '../hooks/useTheme';
 
 const PROJECTS = [
   { name: 'chewyapp1e.me',      desc: 'You are here',                      icon: '🖥️', url: '#',                                                          status: '🟢 LIVE' },
@@ -11,10 +11,10 @@ const PROJECTS = [
 ];
 
 export default function ProjectsWindow() {
-  const dark = useDarkMode();
+  const { blue } = useTheme();
   return (
     <div style={{ fontSize: 8 }}>
-      <div className="inset-98" style={{ padding: 4, marginBottom: 8, fontSize: 7, color: dark ? '#aac4ff' : '#000080' }}>
+      <div className="inset-98" style={{ padding: 4, marginBottom: 8, fontSize: 7, color: blue }}>
         C:\Users\chewyapp1e\Projects\
       </div>
       {PROJECTS.map(p => (

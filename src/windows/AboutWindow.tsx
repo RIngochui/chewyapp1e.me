@@ -1,4 +1,4 @@
-import { useDarkMode } from '../hooks/useDarkMode';
+import { useTheme } from '../hooks/useTheme';
 
 const INTERESTS = [
   '💻 Full Stack Dev', '🖥️ Building Computers', '🎨 Graphic Design',
@@ -26,8 +26,7 @@ function Tags({ items, color }: { items: string[]; color: string }) {
 }
 
 export default function AboutWindow() {
-  const dark = useDarkMode();
-  const blue = dark ? '#aac4ff' : '#000080';
+  const { blue, text } = useTheme();
   return (
     <div style={{ fontSize: 8, height: '100%', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
 
@@ -66,7 +65,7 @@ export default function AboutWindow() {
       {/* Interests */}
       <div>
         <div style={{ color: blue, marginBottom: 2 }}>// interests</div>
-        <Tags items={INTERESTS} color={dark ? '#e0e0e0' : '#000'} />
+        <Tags items={INTERESTS} color={text} />
       </div>
 
       {/* Skills */}
@@ -75,17 +74,17 @@ export default function AboutWindow() {
 
         <div style={{ marginBottom: 6 }}>
           <div style={{ fontSize: 7, color: '#808080', marginBottom: 2 }}>Languages</div>
-          <Tags items={LANGUAGES} color={dark ? '#e0e0e0' : '#000'} />
+          <Tags items={LANGUAGES} color={text} />
         </div>
 
         <div style={{ marginBottom: 6 }}>
           <div style={{ fontSize: 7, color: '#808080', marginBottom: 2 }}>Backend &amp; Frontend</div>
-          <Tags items={BACKEND_FE} color={dark ? '#e0e0e0' : '#000'} />
+          <Tags items={BACKEND_FE} color={text} />
         </div>
 
         <div>
           <div style={{ fontSize: 7, color: '#808080', marginBottom: 2 }}>Monitoring &amp; Tools</div>
-          <Tags items={TOOLS} color={dark ? '#e0e0e0' : '#000'} />
+          <Tags items={TOOLS} color={text} />
         </div>
       </div>
     </div>

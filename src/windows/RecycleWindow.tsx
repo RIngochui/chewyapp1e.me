@@ -1,5 +1,5 @@
 import type { TrashedItem, WindowId } from '../types';
-import { useDarkMode } from '../hooks/useDarkMode';
+import { useTheme } from '../hooks/useTheme';
 
 interface RecycleWindowProps {
   trashedItems: TrashedItem[];
@@ -8,7 +8,7 @@ interface RecycleWindowProps {
 }
 
 export default function RecycleWindow({ trashedItems, onRestore, onEmpty }: RecycleWindowProps) {
-  const dark = useDarkMode();
+  const { bg, bgAlt, border } = useTheme();
   return (
     <div style={{ fontSize: 8, height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div style={{ display: 'flex', gap: 8, padding: 4, flexShrink: 0 }}>
@@ -36,7 +36,7 @@ export default function RecycleWindow({ trashedItems, onRestore, onEmpty }: Recy
           trashedItems.map((item, i) => (
             <div
               key={`${item.id}-${item.trashedAt}`}
-              style={{ display: 'grid', gridTemplateColumns: '1fr 60px 80px', gap: 4, alignItems: 'center', padding: '4px', borderBottom: `1px solid ${dark ? '#333' : '#e0e0e0'}`, background: dark ? (i % 2 === 0 ? '#1a1a1a' : '#222') : (i % 2 === 0 ? '#fff' : '#f8f8f8') }}
+              style={{ display: 'grid', gridTemplateColumns: '1fr 60px 80px', gap: 4, alignItems: 'center', padding: '4px', borderBottom: `1px solid ${border}`, background: i % 2 === 0 ? bg : bgAlt }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 4, overflow: 'hidden' }}>
                 <span>{item.icon}</span>

@@ -114,17 +114,11 @@ export default function Taskbar({ windows, onTaskbarClick, activeId, onOpen, hid
               <span style={{ fontSize: 8 }}>🔍</span>
               <input
                 ref={inputRef}
+                className="input-98"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Search..."
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  outline: 'none',
-                  fontFamily: "'Press Start 2P', monospace",
-                  fontSize: 7,
-                  width: '100%',
-                }}
+                style={{ fontSize: 7 }}
               />
             </div>
           </div>

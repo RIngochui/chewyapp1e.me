@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDarkMode } from '../hooks/useDarkMode';
+import { useTheme } from '../hooks/useTheme';
 
 
 const CONTACTS = [
@@ -26,7 +26,7 @@ const contactStatusIcon: Record<string, string> = {
 };
 
 export default function MsnWindow() {
-  const dark = useDarkMode();
+  const { dark, blue, text, bgChrome, bgDeep, border, borderChrome } = useTheme();
   const [myStatus, setMyStatus] = useState<MyStatus>('away');
   const [showStatusMenu, setShowStatusMenu] = useState(false);
 
@@ -131,9 +131,9 @@ export default function MsnWindow() {
         <div
           style={{
             padding: '4px 6px',
-            background: dark ? '#2a2a2a' : '#e0e0e0',
+            background: bgChrome,
             fontSize: 7,
-            borderBottom: `1px solid ${dark ? '#404040' : '#c0c0c0'}`,
+            borderBottom: `1px solid ${borderChrome}`,
           }}
         >
           Contacts ({CONTACTS.filter(c => c.status === 'online').length} online)
@@ -146,14 +146,14 @@ export default function MsnWindow() {
               alignItems: 'center',
               gap: 6,
               padding: '5px 6px',
-              borderBottom: `1px solid ${dark ? '#333' : '#e0e0e0'}`,
+              borderBottom: `1px solid ${border}`,
               cursor: c.url ? 'pointer' : 'default',
             }}
             onClick={() => c.url && window.open(c.url, '_blank')}
           >
             <span>{contactStatusIcon[c.status]}</span>
             <div>
-              <div style={{ color: c.url ? (dark ? '#aac4ff' : '#000080') : (dark ? '#e0e0e0' : '#000'), fontSize: 8, textDecoration: c.url ? 'underline' : 'none' }}>{c.name}</div>
+              <div style={{ color: c.url ? blue : text, fontSize: 8, textDecoration: c.url ? 'underline' : 'none' }}>{c.name}</div>
               {c.msg && (
                 <div style={{ color: '#808080', fontSize: 7 }}>{c.msg}</div>
               )}
@@ -165,7 +165,7 @@ export default function MsnWindow() {
       <div
         style={{
           padding: '4px 6px',
-          background: dark ? '#1e1e1e' : '#e8e8e8',
+          background: bgDeep,
           fontSize: 7,
           color: '#808080',
           flexShrink: 0,

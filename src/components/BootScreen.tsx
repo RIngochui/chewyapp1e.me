@@ -6,7 +6,7 @@ interface BootScreenProps {
 
 const BOOT_LINES = [
   'CHEWYOS v2.0.3 (c) 1999–2003.',
-  '徐譽聰科技有限公司 · Chewyapple Technology Co., Ltd.',
+  '徐譽聰科技有限公司 · Chewyapp1e Technology Co., Ltd.',
   '',
   'Checking memory... 640K OK',
   'Loading CONFIG.SYS...',

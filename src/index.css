@@ -48,6 +48,26 @@ body {
   100% { opacity: 0.98; }
 }
 
+/* Win98 bare input (transparent, inherits font) */
+.input-98 {
+  font-family: inherit;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: inherit;
+}
+
+/* Win98 menu bar strip (File / Edit / Help) */
+.menubar-98 {
+  padding: 2px 4px;
+  border-bottom: 1px solid #808080;
+  font-size: 7px;
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 /* Win98 button */
 .btn-98 {
   background: #c0c0c0;
@@ -77,6 +97,7 @@ body {
   border-bottom: 2px solid #ffffff;
   border-right: 2px solid #ffffff;
   background: #fff;
+  font-family: inherit;
 }
 
 /* Win98 window chrome */

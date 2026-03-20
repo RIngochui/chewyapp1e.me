@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useDarkMode } from '../hooks/useDarkMode';
+import { useTheme } from '../hooks/useTheme';
 
 const BOOKMARKS = [
   { label: '🏎️ Self Driving Car School Project', url: 'https://www.youtube.com/watch?v=nwk44ECAk_A&list=RDAq5WXmQQooo&start_radio=1' },
@@ -46,9 +46,7 @@ function getEmbedUrl(rawUrl: string): string {
 type PageState = 'blank' | 'loading' | 'loaded' | 'blocked';
 
 export default function BrowserWindow() {
-  const dark = useDarkMode();
-  const bg = dark ? '#1a1a1a' : '#fff';
-  const chrome = dark ? '#2a2a2a' : '#c0c0c0';
+  const { bg, bgChrome: chrome, bgMuted } = useTheme();
   const [iframeSrc, setIframeSrc] = useState('');
   const [inputUrl, setInputUrl] = useState('');
   const [displayUrl, setDisplayUrl] = useState('');
@@ -113,14 +111,8 @@ export default function BrowserWindow() {
           style={{ flex: 1, padding: '2px 4px', display: 'flex', alignItems: 'center' }}
         >
           <input
-            style={{
-              background: 'transparent',
-              border: 'none',
-              outline: 'none',
-              fontFamily: "'Press Start 2P', monospace",
-              fontSize: 7,
-              width: '100%',
-            }}
+            className="input-98"
+            style={{ fontSize: 7 }}
             value={inputUrl}
             onChange={e => setInputUrl(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && navigate(inputUrl)}
@@ -142,7 +134,7 @@ export default function BrowserWindow() {
           display: 'flex',
           gap: 4,
           padding: '2px 4px',
-          background: dark ? '#222' : '#d4d4d4',
+          background: bgMuted,
           borderBottom: '1px solid #c0c0c0',
           flexShrink: 0,
           flexWrap: 'wrap',
