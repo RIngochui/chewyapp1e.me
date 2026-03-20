@@ -54,6 +54,7 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
 
   const handleDrag = useCallback(
     (id: WindowId, deltaX: number, deltaY: number) => {
+      if (Math.abs(deltaX) < 2 && Math.abs(deltaY) < 2) return;
       isDraggingIcon.current = true;
 
       const updated = icons.map(ic =>
