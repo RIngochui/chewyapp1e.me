@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { asset } from './utils/asset';
 import { useWindowStore } from './store';
 import type { WindowId, IconData, TrashedItem } from './types';
 import { ICON_W, ICON_H } from './components/DesktopIcons';
@@ -38,13 +39,13 @@ interface IconDef {
 
 const DESKTOP_ICONS: IconDef[] = [
   { id: 'about',    label: 'About Me',        icon: '🪪' },
-  { id: 'linkedIn', label: 'LinkedIn',        icon: '💼', iconImg: '/desktop_icons/linkedIn.png', externalUrl: 'https://www.linkedin.com/in/ringo-chui-6603a3209/' },
-  { id: 'github',   label: 'GitHub',          icon: '🐙', iconImg: '/desktop_icons/github.svg',          externalUrl: 'https://github.com/RIngochui' },
+  { id: 'linkedIn', label: 'LinkedIn',        icon: '💼', iconImg: asset('/desktop_icons/linkedIn.png'), externalUrl: 'https://www.linkedin.com/in/ringo-chui-6603a3209/' },
+  { id: 'github',   label: 'GitHub',          icon: '🐙', iconImg: asset('/desktop_icons/github.svg'),          externalUrl: 'https://github.com/RIngochui' },
   { id: 'projects', label: 'My Projects',     icon: '💾' },
   { id: 'games',    label: 'Games',           icon: '🎮', externalUrl: 'https://chewyapp1e.games', hidden: true },
   { id: 'apps',     label: 'Apps',            icon: '📦', externalUrl: 'https://chewyapp1e.apps', hidden: true },
-  { id: 'browser',  label: 'Apple\nBrowser',  icon: '🌐', iconImg: '/desktop_icons/apple_browser.png' },
-  { id: 'msn',      label: 'MSN\nMessenger',  icon: '💬', iconImg: '/desktop_icons/msn.png' },
+  { id: 'browser',  label: 'Apple\nBrowser',  icon: '🌐', iconImg: asset('/desktop_icons/apple_browser.png') },
+  { id: 'msn',      label: 'MSN\nMessenger',  icon: '💬', iconImg: asset('/desktop_icons/msn.png') },
   { id: 'resume',   label: 'Resume',          icon: '📄' },
   { id: 'notes',  label: 'Notes',         icon: '📝' },
 ];

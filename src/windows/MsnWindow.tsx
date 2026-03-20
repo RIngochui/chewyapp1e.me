@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTheme } from '../hooks/useTheme';
+import { asset } from '../utils/asset';
 
 
 const CONTACTS = [
@@ -48,7 +49,7 @@ export default function MsnWindow() {
         }}
       >
         <img
-          src="/display_picture.jpg"
+          src={asset('/display_picture.jpg')}
           alt="chewyapp1e"
           style={{ width: 32, height: 32, objectFit: 'cover', border: '1px solid #aad4ff', flexShrink: 0 }}
         />

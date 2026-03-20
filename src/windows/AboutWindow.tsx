@@ -1,4 +1,5 @@
 import { useTheme } from '../hooks/useTheme';
+import { asset } from '../utils/asset';
 
 const INTERESTS = [
   '💻 Full Stack Dev', '🖥️ Building Computers', '🎨 Graphic Design',
@@ -34,7 +35,7 @@ export default function AboutWindow() {
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
           <img
-          src="/display_picture.jpg"
+          src={asset('/display_picture.jpg')}
           alt="chewyapp1e"
           style={{ width: 56, height: 56, objectFit: 'cover', border: '2px solid #808080', flexShrink: 0 }}
         />

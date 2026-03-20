@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useTheme } from '../hooks/useTheme';
+import { asset } from '../utils/asset';
 
 const BOOKMARKS = [
   { label: '🏎️ Self Driving Car School Project', url: 'https://www.youtube.com/watch?v=nwk44ECAk_A&list=RDAq5WXmQQooo&start_radio=1' },
@@ -167,7 +168,7 @@ export default function BrowserWindow() {
               color: '#808080',
             }}
           >
-            <img src="/desktop_icons/apple_browser.png" alt="Apple Browser" style={{ width: 48, height: 48, imageRendering: 'pixelated' }} />
+            <img src={asset('/desktop_icons/apple_browser.png')} alt="Apple Browser" style={{ width: 48, height: 48, imageRendering: 'pixelated' }} />
             <div>Apple Browser v1.0</div>
             <div style={{ fontSize: 7 }}>Founded in HK · Built in Toronto</div>
             <div style={{ fontSize: 7 }}>Enter a URL to start browsing</div>
@@ -189,7 +190,7 @@ export default function BrowserWindow() {
               gap: 8,
             }}
           >
-            <img src="/desktop_icons/apple_browser.png" alt="" style={{ width: 24, height: 24, imageRendering: 'pixelated' }} />
+            <img src={asset('/desktop_icons/apple_browser.png')} alt="" style={{ width: 24, height: 24, imageRendering: 'pixelated' }} />
             <span>Loading...</span>
             <span style={{ fontSize: 7, color: '#808080' }}>{displayUrl}</span>
           </div>

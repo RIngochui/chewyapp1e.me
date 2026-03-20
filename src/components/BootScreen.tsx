@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { asset } from '../utils/asset';
 
 interface BootScreenProps {
   onComplete: () => void;
@@ -76,7 +77,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
           color: '#fff',
         }}
       >
-        <img src="/chewyOS.png" alt="ChewyOS" style={{ width: 80, height: 80, marginBottom: 12, imageRendering: 'pixelated' }} />
+        <img src={asset('/chewyOS.png')} alt="ChewyOS" style={{ width: 80, height: 80, marginBottom: 12, imageRendering: 'pixelated' }} />
         <div style={{ fontSize: 18, marginBottom: 4, letterSpacing: 2 }}>ChewyOS</div>
         <div style={{ fontSize: 10, color: '#aad4ff', marginBottom: 32 }}>99 xP Professional</div>
         <div

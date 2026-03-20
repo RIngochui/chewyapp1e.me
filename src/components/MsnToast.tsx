@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { asset } from '../utils/asset';
 
 const MESSAGES = [
-  { from: 'dandannyg', msg: 'mary browns?? 🍗🍗' },
+  { from: 'dandannyg', msg: 'aoe2 with the boys?? 🕹️' },
   { from: 'pedro_garcia_04', msg: 'Long time no see!' },
   { from: 'hakuna_matata_', msg: '你返屋企？🏠' },
   { from: 'abel', msg: 'yo thanks for the lambo' },
@@ -63,7 +64,7 @@ export default function MsnToast() {
               margin: '-8px -8px 6px -8px',
             }}
           >
-            <img src="/desktop_icons/msn.png" alt="MSN" style={{ width: 14, height: 14, imageRendering: 'pixelated' }} />
+            <img src={asset('/desktop_icons/msn.png')} alt="MSN" style={{ width: 14, height: 14, imageRendering: 'pixelated' }} />
             <span style={{ fontSize: 7 }}>MSN Messenger</span>
             <span
               style={{ marginLeft: 'auto', cursor: 'pointer', fontSize: 10 }}

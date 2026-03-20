@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { asset } from '../utils/asset';
 import type { WindowState, WindowId } from '../types';
 
 interface TaskbarProps {
@@ -102,7 +103,7 @@ export default function Taskbar({ windows, onTaskbarClick, activeId, onOpen, hid
             gap: 8,
             fontSize: 9,
           }}>
-            <img src="/display_picture.jpg" alt="" style={{ width: 28, height: 28, objectFit: 'cover', border: '1px solid #aad4ff' }}
+            <img src={asset('/display_picture.jpg')} alt="" style={{ width: 28, height: 28, objectFit: 'cover', border: '1px solid #aad4ff' }}
               onError={e => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
             />
             <span>chewyapp1e</span>
@@ -172,7 +173,7 @@ export default function Taskbar({ windows, onTaskbarClick, activeId, onOpen, hid
         className={`start-btn ${menuOpen ? 'active' : ''}`}
         onClick={() => { setMenuOpen(v => !v); setQuery(''); }}
       >
-        <img src="/chewyOS.png" alt="ChewyOS" style={{ width: 16, height: 16, imageRendering: 'pixelated' }} />
+        <img src={asset('/chewyOS.png')} alt="ChewyOS" style={{ width: 16, height: 16, imageRendering: 'pixelated' }} />
         <span>Start</span>
       </button>
 
