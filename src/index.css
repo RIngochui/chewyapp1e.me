@@ -275,7 +275,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  touch-action: none;
+  touch-action: manipulation;
   gap: 4px;
   padding: 6px;
   cursor: pointer;

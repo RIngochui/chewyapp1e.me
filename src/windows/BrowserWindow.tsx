@@ -2,8 +2,31 @@ import { useState, useRef } from 'react';
 import { useTheme } from '../hooks/useTheme';
 import { asset } from '../utils/asset';
 
-const BOOKMARKS = [
-  { label: '🏎️ Self Driving Car School Project', url: 'https://www.youtube.com/watch?v=nwk44ECAk_A&list=RDAq5WXmQQooo&start_radio=1' },
+interface Bookmark { label: string; url: string; }
+interface BookmarkFolder { folder: string; items: Bookmark[]; }
+type BookmarkEntry = Bookmark | BookmarkFolder;
+
+function isFolder(e: BookmarkEntry): e is BookmarkFolder {
+  return 'folder' in e;
+}
+
+const BOOKMARKS: BookmarkEntry[] = [
+  {
+    folder: '📁 Projects',
+    items: [
+      { label: '🏎️ Self Driving Car School Project', url: 'https://www.youtube.com/watch?v=nwk44ECAk_A&list=RDAq5WXmQQooo&start_radio=1' },
+    ],
+  },
+  {
+    folder: '🎵 Music',
+    items: [
+      { label: '🌙 The Weeknd – Call Out My Name', url: 'https://www.youtube.com/watch?v=M4ZoCHID9GI&list=RDM4ZoCHID9GI&start_radio=1' },
+      { label: '🌿 Drake – Jungle', url: 'https://www.youtube.com/watch?v=SQYOL9qU6TY&list=RDSQYOL9qU6TY&start_radio=1' },
+      { label: '👥 Kanye West – Real Friends', url: 'https://www.youtube.com/watch?v=AZcxZ-oiEb8&list=RDAZcxZ-oiEb8&start_radio=1' },
+      { label: '🌸 Joji – Die For You', url: 'https://www.youtube.com/watch?v=kIEWJ1ljEro&list=RDkIEWJ1ljEro&start_radio=1' },
+      { label: '🐰 Bad Bunny – Ojitos Lindos', url: 'https://www.youtube.com/watch?v=wAjHQXrIj9o&list=RDwAjHQXrIj9o&start_radio=1' },
+    ],
+  },
 ];
 
 // Sites that support embedding or have mobile-friendly iframes
@@ -48,6 +71,7 @@ type PageState = 'blank' | 'loading' | 'loaded' | 'blocked';
 
 export default function BrowserWindow() {
   const { bg, bgChrome: chrome, bgMuted } = useTheme();
+  const [openFolder, setOpenFolder] = useState<string | null>(null);
   const [iframeSrc, setIframeSrc] = useState('');
   const [inputUrl, setInputUrl] = useState('');
   const [displayUrl, setDisplayUrl] = useState('');
@@ -141,16 +165,58 @@ export default function BrowserWindow() {
           flexWrap: 'wrap',
         }}
       >
-        {BOOKMARKS.map(b => (
-          <button
-            key={b.label}
-            className="btn-98"
-            style={{ fontSize: 7 }}
-            onClick={() => navigate(b.url)}
-          >
-            {b.label}
-          </button>
-        ))}
+        {BOOKMARKS.map(entry => {
+          if (!isFolder(entry)) {
+            return (
+              <button key={entry.label} className="btn-98" style={{ fontSize: 7 }} onClick={() => navigate(entry.url)}>
+                {entry.label}
+              </button>
+            );
+          }
+          const isOpen = openFolder === entry.folder;
+          return (
+            <div key={entry.folder} style={{ position: 'relative' }}>
+              <button
+                className="btn-98"
+                style={{ fontSize: 7 }}
+                onClick={() => setOpenFolder(isOpen ? null : entry.folder)}
+              >
+                {entry.folder} ▾
+              </button>
+              {isOpen && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: 0,
+                    background: '#c0c0c0',
+                    border: '1px solid #404040',
+                    zIndex: 100,
+                    minWidth: 180,
+                    boxShadow: '2px 2px 0 #404040',
+                  }}
+                >
+                  {entry.items.length === 0 && (
+                    <div style={{ padding: '4px 8px', fontSize: 7, color: '#808080' }}>
+                      (empty)
+                    </div>
+                  )}
+                  {entry.items.map(b => (
+                    <div
+                      key={b.label}
+                      style={{ padding: '4px 8px', fontSize: 7, cursor: 'pointer', whiteSpace: 'nowrap' }}
+                      onMouseEnter={e => (e.currentTarget.style.background = '#000080', e.currentTarget.style.color = '#fff')}
+                      onMouseLeave={e => (e.currentTarget.style.background = '', e.currentTarget.style.color = '')}
+                      onClick={() => { navigate(b.url); setOpenFolder(null); }}
+                    >
+                      {b.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Content area */}

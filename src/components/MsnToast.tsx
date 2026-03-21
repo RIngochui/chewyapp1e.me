@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { asset } from '../utils/asset';
 
 const MESSAGES = [
@@ -16,16 +16,15 @@ interface Toast {
 
 export default function MsnToast() {
   const [toasts, setToasts] = useState<Toast[]>([]);
-  const [counter, setCounter] = useState(0);
+  const msgIndex = useRef(0);
 
   useEffect(() => {
-    // Show first toast after 4s, then random intervals
     const scheduleNext = (delay: number) => {
       return setTimeout(() => {
-        const msg = MESSAGES[counter % MESSAGES.length];
+        const msg = MESSAGES[msgIndex.current % MESSAGES.length];
+        msgIndex.current += 1;
         const id = Date.now();
         setToasts(prev => [...prev, { id, ...msg }]);
-        setCounter(c => c + 1);
 
         // Remove after 5s
         setTimeout(() => {
@@ -38,7 +37,6 @@ export default function MsnToast() {
 
     const t = scheduleNext(4000);
     return () => clearTimeout(t);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

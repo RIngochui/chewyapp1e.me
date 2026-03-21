@@ -44,6 +44,11 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
   const isDraggingIcon = useRef(false);
   const draggedId = useRef<WindowId | null>(null);
 
+  // Keep a stable ref to openIcon so the native touch effect doesn't need to re-register
+  const iconsRef = useRef(icons);
+  const onOpenRef = useRef(onOpen);
+  useEffect(() => { iconsRef.current = icons; }, [icons]);
+  useEffect(() => { onOpenRef.current = onOpen; }, [onOpen]);
 
   // ---------- icon drag ----------
   const handleDragStart = useCallback((id: WindowId) => {
@@ -83,7 +88,6 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
       draggedId.current = null;
       setBinHovered(false);
 
-      // Commit the definitive final position (guards against last onDrag not firing)
       const committed = icons.map(ic =>
         ic.id === id ? { ...ic, x: finalX, y: finalY } : ic
       );
@@ -127,7 +131,7 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
     [icons, onIconsChange, onTrash, selected]
   );
 
-  // ---------- icon click ----------
+  // ---------- icon click (mouse) ----------
   const handleIconClick = useCallback(
     (id: WindowId, e: React.MouseEvent) => {
       if (isDraggingIcon.current) return;
@@ -140,7 +144,7 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
         });
         return;
       }
-      const ic = icons.find(i => i.id === id);
+      const ic = iconsRef.current.find(i => i.id === id);
       if (ic?.downloadUrl) {
         const a = document.createElement('a');
         a.href = ic.downloadUrl;
@@ -149,11 +153,57 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
       } else if (ic?.externalUrl) {
         window.open(ic.externalUrl, '_blank');
       } else {
-        onOpen(id);
+        onOpenRef.current(id);
       }
     },
-    [onOpen, icons]
+    []
   );
+
+  // ---------- touch tap (native listeners, fires before react-draggable) ----------
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let startX = 0;
+    let startY = 0;
+    let startIconId: WindowId | null = null;
+
+    const onTouchStart = (e: TouchEvent) => {
+      const iconEl = (e.target as Element).closest('[data-icon-id]') as HTMLElement | null;
+      if (!iconEl) return;
+      startIconId = iconEl.dataset.iconId as WindowId;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!startIconId) return;
+      const t = e.changedTouches[0];
+      const id = startIconId;
+      startIconId = null;
+      if (Math.abs(t.clientX - startX) > 10 || Math.abs(t.clientY - startY) > 10) return;
+
+      e.preventDefault(); // prevent ghost click
+      const ic = iconsRef.current.find(i => i.id === id);
+      if (ic?.downloadUrl) {
+        const a = document.createElement('a');
+        a.href = ic.downloadUrl;
+        a.download = ic.downloadUrl.split('/').pop() ?? ic.label;
+        a.click();
+      } else if (ic?.externalUrl) {
+        window.open(ic.externalUrl, '_blank');
+      } else {
+        onOpenRef.current(id);
+      }
+    };
+
+    container.addEventListener('touchstart', onTouchStart, { passive: true });
+    container.addEventListener('touchend', onTouchEnd);
+    return () => {
+      container.removeEventListener('touchstart', onTouchStart);
+      container.removeEventListener('touchend', onTouchEnd);
+    };
+  }, []);
 
   // ---------- rubber band ----------
   const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -235,6 +285,7 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
           >
             <div
               ref={nodeRef as React.RefObject<HTMLDivElement>}
+              data-icon-id={ic.id}
               className={`desktop-icon ${selected.has(ic.id) ? 'selected' : ''} ${isRecycle && binHovered ? 'bin-hover' : ''}`}
               style={{
                 position: 'absolute',
@@ -244,20 +295,6 @@ export default function DesktopIcons({ icons, onIconsChange, onTrash, onOpen }: 
                 borderRadius: 4,
               }}
               onClick={e => handleIconClick(ic.id, e)}
-              onTouchEnd={e => {
-                e.preventDefault();
-                if (isDraggingIcon.current) return;
-                if (ic.downloadUrl) {
-                  const a = document.createElement('a');
-                  a.href = ic.downloadUrl;
-                  a.download = ic.downloadUrl.split('/').pop() ?? ic.label;
-                  a.click();
-                } else if (ic.externalUrl) {
-                  window.open(ic.externalUrl, '_blank');
-                } else {
-                  onOpen(ic.id);
-                }
-              }}
             >
               {ic.iconImg
                 ? <img src={ic.iconImg} alt={ic.label} className="icon-img" draggable={false} style={{ width: 32, height: 32, imageRendering: 'pixelated', objectFit: 'contain' }} />
