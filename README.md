@@ -2,7 +2,7 @@
 
 A fake retro Windows 98-style OS portfolio site built with React, Vite, and TypeScript.
 
-**Live:** [ringochui.github.io/chewyapp1e.me](https://ringochui.github.io/chewyapp1e,me/)
+**Live:** [Here](https://ringochui.github.io/chewyapp1e.me/)
 
 ## Features
 
