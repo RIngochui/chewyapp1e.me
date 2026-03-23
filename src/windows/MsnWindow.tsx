@@ -124,7 +124,7 @@ export default function MsnWindow() {
       >
         {myStatus === 'dnd'
           ? '🔴 Do Not Disturb'
-          : '"Trying hard pushes others to try harder — nonchalance kills growth."'}
+          : '"Never strive to outdo others, but strive to outdo yourself always."'}
       </div>
 
       {/* Contacts */}
